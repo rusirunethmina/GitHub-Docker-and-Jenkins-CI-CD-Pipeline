@@ -1,7 +1,7 @@
 pipeline {
-    agent any 
-    
-    stages { 
+    agent any
+
+    stages {
         stage('SCM Checkout') {
             steps {
                 retry(3) {
@@ -10,7 +10,7 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
-            steps {  
+            steps {
                 bat 'docker build -t rusiru1998n/nodeapp-cuban:%BUILD_NUMBER% .'
             }
         }
@@ -18,7 +18,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'dockerhub-password', variable: 'docker-hub-password')]) {
                     script {
-                        bat 'docker login -u rusiru1998n -p ${docker-hub-password}'
+                        bat 'docker login -u rusiru1998n -p %docker-hub-password%'
                     }
                 }
             }
